@@ -1,2 +1,2 @@
 # EmployeeTracker
-an sql based employee tracker to keep tabs on roles and assignments. 
+an sql based CMS that helps to keep tabs on roles and assignments. 
