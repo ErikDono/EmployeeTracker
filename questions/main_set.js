@@ -9,6 +9,9 @@ const main_questions = async () => {
         "View Employees by Role",
         "View Employees by Department",
         "Update Items",
+        "Add Role",
+        "Add Department",
+        "Exit"
     ];
     return inq.prompt({
         type: "list",

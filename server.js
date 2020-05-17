@@ -8,6 +8,7 @@ connection.connect(err => {
         throw err;
     }
     console.log("Connected...")
+    start()
 })
 
 const start = async () => {
@@ -42,6 +43,16 @@ const start = async () => {
         case "Update Items":
             controller.editOne()
             break
+        case "Exit":
+            connection.end
+            console.log("\n \n \n \n Goodbye!")
+            break
+        case "Add Role":
+            controller.insertRole()
+            break
+        case "Add Department":
+            controller.insertDept()
+            break
         default:
             console.log("Nope");
             start()
@@ -49,4 +60,4 @@ const start = async () => {
             break;
     }
 }
-start()
+
