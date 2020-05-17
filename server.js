@@ -42,7 +42,6 @@ const start = async () => {
         case "Update Items":
             controller.editOne()
             break
-
         default:
             console.log("Nope");
             start()

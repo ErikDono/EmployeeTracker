@@ -28,49 +28,60 @@ module.exports = {
     },
     editOne: () => {
 
-        inquirer.prompt(
+        inquirer.prompt([
             {
                 type: "input",
                 name: "empid",
                 message: "What is the ID of the employee?",
 
             },
-        )
-        // .then(function (answer) {
-        //     console.log(answer)
+            {
+                type: "list",
+                name: "newrole",
+                message: "what is the employee's new role?",
+                choices: ["Junior Developer I", 'Developer II', 'Developer III', 'Developer Manager', 'Help Desk Manager', 'Help Desk Technician', 'VP Marketing', 'Marketing Manager', 'Marketing Assistant', 'Marketing Director I', 'Account Manager', 'Account Director', 'Board Member', 'Account Exectutive', 'CEO', 'CFO']
+            }
+        ]).then(function (answer) {
+            connection.query(
+                "SELECT first_name, last_name, title FROM employee LEFT JOIN role ON employee.role_id = role.id UPDATE employee SET ? WHERE ?",
+                [
+                    {
+                        title: answer.bid
+                    },
+                    {
+                        id: answer.empid
+                    }
+                ],
 
-        // })
-
-
-
-
-
-
-        //     connection.query(`SELECT * FROM role`), (err, results, fields) => {
-        //         if (err) { throw err; }
-        //         const options = { results }
-        //         inq.prompt(
-        //             {
-        //                 type: "input",
-        //                 name: "empid",
-        //                 message: "What is the employee ID?"
-        //             },
-
-        //             {
-        //                 type: "choice",
-        //                 name: "rolechoice",
-        //                 message: "what is the employee's new role?",
-        //                 choices: options
-        //             }
-        //         )
-        //     };
-        // }
+            );
 
 
-        // connection.query(`UPDATE ${table} WHERE id=${id};`, (err, results, fields) => {
-        //     if (err) { throw err; }
-        //     console.log(results)
-        // })
+            //     connection.query(`SELECT * FROM role`), (err, results, fields) => {
+            //         if (err) { throw err; }
+            //         const options = { results }
+            //         inq.prompt(
+            //             {
+            //                 type: "input",
+            //                 name: "empid",
+            //                 message: "What is the employee ID?"
+            //             },
+
+            //             {
+            //                 type: "choice",
+            //                 name: "rolechoice",
+            //                 message: "what is the employee's new role?",
+            //                 choices: options
+            //             }
+            //         )
+            //     };
+            // }
+
+
+            // connection.query(`UPDATE ${table} WHERE id=${id};`, (err, results, fields) => {
+            //     if (err) { throw err; }
+            //     console.log(results)
+            // })
+        })
     },
 
     showByParameter: async (left_join_table, sort_parameter, left_join_id) => {
