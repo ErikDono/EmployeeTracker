@@ -11,6 +11,7 @@ const main_questions = async () => {
         "Update Items",
         "Add Role",
         "Add Department",
+        "Add Employee",
         "Exit"
     ];
     return inq.prompt({

@@ -110,3 +110,4 @@ insert into department (dept_name) values ('BIGWIGS');
 
 
 
+

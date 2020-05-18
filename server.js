@@ -14,50 +14,53 @@ connection.connect(err => {
 const start = async () => {
     // const tables = await controller.showAllTables();
     // console.log(`These are the tabels: ${tables}`)
-    const command = await mainQuestion()
-    switch (command.choice) {
-        case "Get All Employees":
-            controller.getAll("employee")
-            start()
-            break;
-        case "Get All Roles":
-            controller.getAll("role")
-            start()
-            break;
-        case "Get All Departments":
-            controller.getAll("department")
-            start()
-            break;
-        case "View Employees by Role":
-            controller.showByParameter("role", "title", "role_id")
-            start()
-            break;
-        case "View Employees by Department":
-            controller.showByParameter("department", "dept_name", "dept_id")
-            start()
-            break;
-        case "View Items":
-            controller.showAllTables("employee")
-            start()
-            break;
-        case "Update Items":
-            controller.editOne()
-            break
-        case "Exit":
-            connection.end
-            console.log("\n \n \n \n Goodbye!")
-            break
-        case "Add Role":
-            controller.insertRole()
-            break
-        case "Add Department":
-            controller.insertDept()
-            break
-        default:
-            console.log("Nope");
-            start()
 
-            break;
+    var isRunning = true
+
+    while (isRunning) {
+        const command = await mainQuestion()
+        switch (command.choice) {
+            case "Get All Employees":
+                await controller.getAll("employee")
+                break;
+            case "Get All Roles":
+                await controller.getAll("role")
+                break;
+            case "Get All Departments":
+                await controller.getAll("department")
+                break;
+            case "View Employees by Role":
+                await controller.showByParameter("role", "title", "role_id")
+                break;
+            case "View Employees by Department":
+                await controller.showByParameter("department", "dept_name", "dept_id")
+                break;
+            case "View Items":
+                await controller.showAllTables("employee")
+                break;
+            case "Update Items":
+                await controller.editOne()
+                break
+            case "Add Employee":
+                await controller.insertEmp()
+                break;
+            case "Add Role":
+                await controller.insertRole()
+                break;
+            case "Add Department":
+                await controller.insertDept()
+                break;
+            case "Exit":
+                connection.end
+                console.log("\n \n \n \n Goodbye!")
+                isRunning = false;
+                break;
+            default:
+                console.log("Nope");
+                break;
+
+        }
     }
 }
 
+module.exports = { start }

@@ -1,6 +1,7 @@
 const mysql = require("mysql")
-const { table } = require("table")
+const table = require("table")
 const inquirer = require("inquirer")
+var start = require("../server").start
 require('dotenv').config();
 
 const dbpass = process.env.password
@@ -26,10 +27,19 @@ module.exports = {
             console.log("\n \n \n Press any key to continue...")
             //console.log(table(results))
         })
+        //     import {
+        //         table,
+        //         getBorderCharacters
+        //     } from 'table';
+        //     let config = {
+        //         border: getBorderCharacters(`honeywell`)
+        //     };
+        //     table(results, config)
+        //      }
     },
     editOne: () => {
 
-        inquirer.prompt([
+        return inquirer.prompt([
             {
                 type: "input",
                 name: "empid",
@@ -43,47 +53,41 @@ module.exports = {
                 choices: ["Junior Developer I", 'Developer II', 'Developer III', 'Developer Manager', 'Help Desk Manager', 'Help Desk Technician', 'VP Marketing', 'Marketing Manager', 'Marketing Assistant', 'Marketing Director I', 'Account Manager', 'Account Director', 'Board Member', 'Account Exectutive', 'CEO', 'CFO']
             }
         ]).then(function (answer) {
+            console.log(answer, "this is your answer!")
             connection.query(
-                "SELECT id FROM employee LEFT JOIN role ON employee.role_id = role.id UPDATE employee SET ? WHERE ?",
-                [
-                    {
-                        title: answer.bid
-                    },
-                    {
-                        id: answer.empid
-                    }
-                ],
+                "SELECT employee.id FROM employee LEFT JOIN role ON employee.role_id = role.id; UPDATE employee SET title = ? WHERE ?", [answer.newrole, answer.empid],
+                function (err) {
+                    if (err) throw err;
+                    console.log("Your role was created successfully!");
+                    console.log("\n \n \n Press any key to continue...")
 
-            );
-            console.log("\n \n \n Press any key to continue...")
-            //     unused:[
-            // //     connection.query(`SELECT * FROM role`), (err, results, fields) => {
-            // //         if (err) { throw err; }
-            // //         const options = { results }
-            // //         inq.prompt(
-            // //             {
-            // //                 type: "input",
-            // //                 name: "empid",
-            // //                 message: "What is the employee ID?"
-            // //             },
+                    //     unused:[
+                    // //     connection.query(`SELECT * FROM role`), (err, results, fields) => {
+                    // //         if (err) { throw err; }
+                    // //         const options = { results }
+                    // //         inq.prompt(
+                    // //             {
+                    // //                 type: "input",
+                    // //                 name: "empid",
+                    // //                 message: "What is the employee ID?"
+                    // //             },
 
-            // //             {
-            // //                 type: "choice",
-            // //                 name: "rolechoice",
-            // //                 message: "what is the employee's new role?",
-            // //                 choices: options
-            // //             }
-            // //         )
-            // //     };
-            // // }
-
-
-
-            // connection.query(`UPDATE ${table} WHERE id=${id};`, (err, results, fields) => {
-            //     if (err) { throw err; }
-            //     console.log(results)
-            // })
+                    // //             {
+                    // //                 type: "choice",
+                    // //                 name: "rolechoice",
+                    // //                 message: "what is the employee's new role?",
+                    // //                 choices: options
+                    // //             }
+                    // //         )
+                    // //     };
+                    // // }
+                    // connection.query(`UPDATE ${table} WHERE id=${id};`, (err, results, fields) => {
+                    //     if (err) { throw err; }
+                    //     console.log(results)
+                    // })
+                })
         })
+
     },
 
     showByParameter: async (left_join_table, sort_parameter, left_join_id) => {
@@ -103,16 +107,16 @@ module.exports = {
             }
             results.forEach(table => {
                 console.log(table.Tables_in_employees_db)
-                tables.push(table.Tables_in_employees_db)
+
             })
         });
         console.log("\n \n \n Press any key to continue...")
 
-        return await tables;
+        c
 
     },
     insertRole: async () => {
-        inquirer
+        return inquirer
             .prompt([
                 {
                     name: "newtitle",
@@ -161,26 +165,22 @@ module.exports = {
             .then(function (answer) {
                 // when finished prompting, insert a new item into the db with that info
                 connection.query(
-                    "INSERT INTO role (id, title, salary, dept_id) VALUES ?",
-                    {
-                        id: answer.newid || 0,
-                        title: answer.newtitle,
-                        salary: answer.newsalary || 0,
-                        dept_id: answer.newdept_id || 0
-
-                    },
+                    "INSERT INTO role (id, title, salary, dept_id) VALUES (?,?,?,?)",
+                    [answer.newid || 0,
+                    answer.newtitle,
+                    answer.newsalary || 0,
+                    answer.newdept_id || 0]
+                    ,
                     function (err) {
                         if (err) throw err;
-                        console.log("Your auction was created successfully!");
-
-
-
+                        console.log("Your role was created successfully!");
+                        connection.end
                     })
             })
     },
 
-    insertDept: () => {
-        inquirer
+    insertDept: async () => {
+        return inquirer
             .prompt([
                 {
                     name: "newdept",
@@ -189,13 +189,55 @@ module.exports = {
                 }
             ])
             .then(function (answer) {
+                console.log(answer, "this is the answer!")
+
                 // when finished prompting, insert a new item into the db with that info
                 connection.query(
-                    "INSERT INTO department (dept_name) VALUES ?",
-                    {
-                        dept_name: answer.newdept
+                    "INSERT INTO department (dept_name) VALUES (?)", answer.newdept,
 
-                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log("Your department was created successfully!");
+
+
+
+                    })
+            })
+    },
+    insertEmp: async () => {
+        inquirer
+            .prompt([
+                {
+                    name: "new_first",
+                    type: "input",
+                    message: "What is first name of the employee you would like to add?"
+                },
+                {
+                    name: "new_last",
+                    type: "input",
+                    message: "What is last name of the employee you would like to add?"
+                },
+                {
+                    name: "new_role_num",
+                    type: "input",
+                    message: "What is role ID of the employee you would like to add?"
+                },
+                {
+                    name: "new_man_num",
+                    type: "input",
+                    message: "What is name of the employee you would like to add?"
+                },
+                {
+                    name: "new_dept_num",
+                    type: "input",
+                    message: "What is name of the employee you would like to add?"
+                },
+            ])
+            .then(function (answer) {
+                console.log(answer, "this is the answer!")
+                // when finished prompting, insert a new item into the db with that info
+                connection.query(
+                    "INSERT INTO employee (first_name, last_name, role_id, manager_id, dept_id) VALUES (?,?,?,?,?)", [answer.new_first, answer.new_last, answer.new_role_num, answer.new_man_num, answer.new_dept_num],
                     function (err) {
                         if (err) throw err;
                         console.log("Your department was created successfully!");
@@ -205,5 +247,6 @@ module.exports = {
                     })
             })
     }
+
 
 }
