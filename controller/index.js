@@ -41,13 +41,15 @@ module.exports = {
             {
                 type: "list",
                 name: "newrole",
-                message: "what is the employee's new role?",
-                choices: ["Junior Developer I", 'Developer II', 'Developer III', 'Developer Manager', 'Help Desk Manager', 'Help Desk Technician', 'VP Marketing', 'Marketing Manager', 'Marketing Assistant', 'Marketing Director I', 'Account Manager', 'Account Director', 'Board Member', 'Account Exectutive', 'CEO', 'CFO']
+                message: "What is the employee's new role id?",
+                choices: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
+                // message: "what is the employee's new role?",
+                // choices: ["Junior Developer I", 'Developer II', 'Developer III', 'Developer Manager', 'Help Desk Manager', 'Help Desk Technician', 'VP Marketing', 'Marketing Manager', 'Marketing Assistant', 'Marketing Director I', 'Account Manager', 'Account Director', 'Account Exectutive', 'CEO', 'CFO', 'Board Member',]
             }
         ]).then(function (answer) {
             console.log(answer, "this is your answer!")
             connection.query(
-                "SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id; UPDATE employee SET title = ? WHERE ?", [answer.newrole, answer.empid],
+                `SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id; UPDATE employee SET role_id = ? WHERE id = ?`, [answer.newrole, answer.empid],
                 function (err) {
                     if (err) throw err;
                     console.log("Your role was created successfully!");
@@ -97,14 +99,9 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            results.forEach(table => {
-                console.log(table.Tables_in_employees_db)
-
-            })
+            console.table("\n", results)
         });
         console.log("\n \n \n Press any key to continue...")
-
-        c
 
     },
     insertRole: async () => {
@@ -197,7 +194,7 @@ module.exports = {
             })
     },
     insertEmp: async () => {
-        inquirer
+        return inquirer
             .prompt([
                 {
                     name: "new_first",
