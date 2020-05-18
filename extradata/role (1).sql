@@ -17,3 +17,5 @@ insert into role (title, salary, dept_id) values ('CEO', 500000.00, 5);
 insert into role (title, salary, dept_id) values ('CFO', 450000.00, 5);
 insert into role (title, salary, dept_id) values ('Board Member', 700000.00, 5);
 
+SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id; UPDATE employee SET title = 'Junior Developer I'  WHERE id = '12'
+

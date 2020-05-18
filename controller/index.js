@@ -1,5 +1,5 @@
 const mysql = require("mysql")
-const table = require("table")
+const cTable = require('console.table')
 const inquirer = require("inquirer")
 var start = require("../server").start
 require('dotenv').config();
@@ -23,19 +23,11 @@ module.exports = {
         connection.query(`SELECT * FROM ${search_param}`, (err, results, fields) => {
             if (err) { throw err; }
 
-            console.log(results)
+            console.table("\n", results)
             console.log("\n \n \n Press any key to continue...")
             //console.log(table(results))
         })
-        //     import {
-        //         table,
-        //         getBorderCharacters
-        //     } from 'table';
-        //     let config = {
-        //         border: getBorderCharacters(`honeywell`)
-        //     };
-        //     table(results, config)
-        //      }
+
     },
     editOne: () => {
 
@@ -55,7 +47,7 @@ module.exports = {
         ]).then(function (answer) {
             console.log(answer, "this is your answer!")
             connection.query(
-                "SELECT employee.id FROM employee LEFT JOIN role ON employee.role_id = role.id; UPDATE employee SET title = ? WHERE ?", [answer.newrole, answer.empid],
+                "SELECT * FROM employee LEFT JOIN role ON employee.role_id = role.id; UPDATE employee SET title = ? WHERE ?", [answer.newrole, answer.empid],
                 function (err) {
                     if (err) throw err;
                     console.log("Your role was created successfully!");
@@ -95,7 +87,7 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            console.log(results)
+            console.table("\n", results)
             console.log("\n \n \n Press any key to continue...")
         })
     },
