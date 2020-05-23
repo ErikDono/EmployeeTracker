@@ -23,7 +23,7 @@ module.exports = {
         connection.query(`SELECT * FROM ${search_param}`, (err, results, fields) => {
             if (err) { throw err; }
 
-            console.table("\n", results)
+            console.table("\n", results, "\n\n\n\n\n")
             console.log("\n \n \n Press any key to continue...")
             //console.log(table(results))
         })
@@ -89,7 +89,7 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            console.table("\n", results)
+            console.table("\n", results, "\n\n\n\n")
             console.log("\n \n \n Press any key to continue...")
         })
     },
@@ -99,7 +99,7 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            console.table("\n", results)
+            console.table("\n", results, "\n\n\n\n\n\n")
         });
         console.log("\n \n \n Press any key to continue...")
 
@@ -214,12 +214,12 @@ module.exports = {
                 {
                     name: "new_man_num",
                     type: "input",
-                    message: "What is name of the employee you would like to add?"
+                    message: "What is name of the employee's manager id that you would like to add?"
                 },
                 {
                     name: "new_dept_num",
                     type: "input",
-                    message: "What is name of the employee you would like to add?"
+                    message: "What is name of the employee's department number you would like to add?"
                 },
             ])
             .then(function (answer) {
