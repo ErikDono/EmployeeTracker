@@ -33,8 +33,13 @@ I am really enjoying SQL! This application will impliment a baisc CRUD (witout t
 
 ## Function Video 
 
-![FunctionVideo](/Assets/function.gif)
-![TestVideo](/Assets/test.gif)
+![FunctionVideo](/Assets/function1.gif)
+
+``` This video goes over viewing and adding roles, departments, and employees. It also shows viewing by role and viewing by department ```
+
+![UppdateVideo](/Assets/updatefunctionvid.gif)
+
+``` My update fucntion in SQL```
 
 ## Installation
       This  uses Dotenv, express, inquirer, mysql, which you should be able to get from doing a NPM Install 
